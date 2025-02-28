@@ -1,24 +1,86 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-textPrimary: var(--textPrimary);
+  --color-textSecondary: var(--textSecondary);
+  --color-textTertiary: var(--textTertiary);
+  --color-link: var(--link);
+  --color-bgPrimary: var(--backgroundPrimary);
+  --color-bgSecondary: var(--backgroundSecondary);
+  --color-bgTertiary: var(--backgroundTertiary);
+  --color-button: var(--button);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-modal: var(--modalBackground);
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@layer base {
+  [data-theme="gruvbox"] {
+    --textPrimary: #ebdbb2;
+    --textSecondary: #a89984;
+    --textTertiary: #9ca3af;
+    --link: #458588;
+    --backgroundPrimary: #32302f;
+    --backgroundSecondary: #282828;
+    --backgroundTertiary: #1d2021;
+    --button: #98971a;
+    --danger: #cc241d;
+    --warning: #d65d0e;
+    --success: #689d6a;
+    --modalBackground: rgba(0, 0, 0, 0.5);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+    ::-webkit-calendar-picker-indicator {
+      filter: brightness(0) saturate(100%) invert(90%) sepia(12%)
+        saturate(1046%) hue-rotate(332deg) brightness(107%) contrast(84%);
+    }
+  }
+
+  [data-theme="catpuccin"] {
+    --textPrimary: #c6d0f5;
+    --textSecondary: #b5bfe2;
+    --textTertiary: #9ca3af;
+    --link: #81c8be;
+    --backgroundPrimary: #45475a;
+    --backgroundSecondary: #313244;
+    --backgroundTertiary: #1e1e2e;
+    --button: #8caaee;
+    --danger: #e78284;
+    --warning: #ef9f76;
+    --success: #a6d189;
+    --modalBackground: rgba(0, 0, 0, 0.5);
+  
+    color-scheme: light;
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(92%) sepia(77%) saturate(6534%) hue-rotate(177deg)
+        brightness(99%) contrast(93%);
+    }
+  }
+
+  [data-theme="catpuccin-mocha"] {
+    --textPrimary: #cdd6f4;
+    --textSecondary: #bac2de;
+    --textTertiary: #a6adc8;
+    --link: #81c8be;
+    --backgroundPrimary: #45475a;
+    --backgroundSecondary: #313244;
+    --backgroundTertiary: #1e1e2e;
+    --button: #8caaee;
+    --danger: #e78284;
+    --warning: #ef9f76;
+    --success: #a6d189;
+    --modalBackground: rgba(0, 0, 0, 0.5);
+  
+    color-scheme: dark;
+    ::-webkit-calendar-picker-indicator {
+      filter: invert(92%) sepia(77%) saturate(6534%) hue-rotate(177deg)
+        brightness(99%) contrast(93%);
+    }
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+input,
+textarea {
+  outline: none;
 }
