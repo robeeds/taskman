@@ -4,7 +4,7 @@
 // Imports
 import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import ThemeDropdown from "@/components/ThemeDropdown";
+import ThemeDropdown from "@/components/theme-dropdown";
 
 export default function Home() {
   return (

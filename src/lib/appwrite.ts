@@ -40,3 +40,8 @@ export async function getLoggedInUser() {
     const user = account.get()
     return user;
 }
+
+export async function getTasks() {
+    const promise = await databases.listDocuments('67a113c40021c7fe3479', '67a113cc000fa69b928a')
+    return promise.documents
+}
