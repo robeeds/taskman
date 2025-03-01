@@ -1,9 +1,7 @@
 // @/src/lib/appwrite.ts
-//"use server"
 
 // Imports
-import { Client, Databases, Account, ID } from "appwrite";
-import { type Models } from "appwrite";
+import { Client, Databases, Account, ID, Models } from "appwrite";
 import { redirect } from "next/navigation";
 
 export const client: Client = new Client();
@@ -41,7 +39,11 @@ export async function getLoggedInUser() {
     return user;
 }
 
-export async function getTasks() {
-    const promise = await databases.listDocuments('67a113c40021c7fe3479', '67a113cc000fa69b928a')
-    return promise.documents
+// Specifies attributes of Task Object
+export interface Task extends Models.Document {
+    title: string;
+    description: string;
+    dueDate: Date;
+    isImportant: boolean;
+    isCompleted: boolean;
 }
