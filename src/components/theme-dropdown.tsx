@@ -1,4 +1,4 @@
-// @/src/app/components/ThemeDropdown.tsx
+// @/src/components/theme-dropdown.tsx
 "use client";
 
 // Imports
