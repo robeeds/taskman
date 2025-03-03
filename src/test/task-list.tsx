@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { client, databases, Task } from "@/lib/appwrite";
 import { motion } from "framer-motion";
 import { StarIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import CreateButton from "./create-button";
 
 // Constants
 const DATABASE_ID = "67a113c40021c7fe3479";
@@ -37,7 +38,11 @@ export default function TaskList() {
         }
         if (eventType.includes(".update")) {
           console.log("A task was updated");
-          setTasks((prevTasks) => [changedTask, ...prevTasks]);
+          setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+              task.$id !== changedTask.$id ? task : changedTask,
+            ),
+          );
         }
         if (eventType.includes(".delete")) {
           console.log("A task was deleted");
@@ -60,8 +65,8 @@ export default function TaskList() {
   return (
     <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-3">
       {/* Create Button */}
-      <div className="bg-bgPrimary rounded-[15px] hover:cursor-pointer">
-        {/*<CreateButton />*/}
+      <div className="bg-bgPrimary rounded-[15px]">
+        <CreateButton />
       </div>
 
       {/* Task Cards */}
@@ -85,15 +90,17 @@ export default function TaskList() {
           </div>
 
           {/* Description and Due Date */}
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-1 flex-col overflow-hidden">
             {/* Task Description */}
-            <p className="text-textSecondary line-clamp-6">
+            <p className="text-textSecondary h-full overflow-y-scroll">
               {task.description}
             </p>
 
             {/* Task Due Date */}
             <p className="py-3 font-semibold">
-              Due: {new Date(task.dueDate).toLocaleDateString()}
+              {task.dueDate != null
+                ? `Due: ${new Date(task.dueDate).toLocaleDateString()} at ${new Date(task.dueDate).toLocaleTimeString([], { timeStyle: "short" })}`
+                : ""}
             </p>
           </div>
 
@@ -101,17 +108,19 @@ export default function TaskList() {
           <div className="flex flex-row items-center justify-between">
             {/* Task Status, change value based on today's date */}
             <p
-              className={`rounded-full px-4 py-2 ${
-                new Date(task.dueDate).toLocaleDateString() >=
-                  new Date().toLocaleDateString() && task.isCompleted != true
-                  ? "bg-warning"
-                  : "bg-danger"
-              }`}
+              className={`rounded-full px-4 py-2 ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate).toLocaleDateString() < new Date().toLocaleDateString() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate).toLocaleDateString() >= new Date().toLocaleDateString() && "bg-warning"}`}
             >
-              {new Date(task.dueDate).toLocaleDateString() >=
-                new Date().toLocaleDateString() && task.isCompleted != true
-                ? "Pending"
-                : "Incomplete!"}
+              {task.isCompleted == true && "Complete!"}
+              {task.isCompleted == false &&
+                task.dueDate != null &&
+                new Date(task.dueDate).toLocaleDateString() <
+                  new Date().toLocaleDateString() &&
+                "Incomplete!"}
+              {task.isCompleted == false &&
+                task.dueDate != null &&
+                new Date(task.dueDate).toLocaleDateString() >=
+                  new Date().toLocaleDateString() &&
+                "In Progress"}
             </p>
 
             {/* Edit and Delete Section */}
