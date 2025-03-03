@@ -23,7 +23,7 @@ export default function SideNav() {
   }, []);
 
   return (
-    <div className="bg-bgSecondary flex flex-1 flex-row items-center p-4 md:flex-col md:items-start">
+    <div className="bg-bgSecondary fixed z-[5] flex w-full flex-1 flex-row items-center p-4 md:sticky md:flex-col md:items-start">
       {/* Username Section with Gear Icon (Settings) */}
       <div className="bg-bgPrimary flex flex-row rounded-l-[15px] p-4 md:w-full md:items-center md:justify-between md:rounded-t-[15px] md:rounded-bl-none md:rounded-tr-none">
         <div className="hidden md:flex md:flex-col">

@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${firaCode.variable} font-[family-name:var(--font-fira-code)] antialiased`}
+        className={`${firaCode.variable} overscroll-none font-[family-name:var(--font-fira-code)] antialiased`}
       >
         <ThemeProviders>{children}</ThemeProviders>
       </body>
