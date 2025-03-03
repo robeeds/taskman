@@ -2,27 +2,16 @@
 "use client";
 
 // Imports
-import { databases, getTasks, Models } from "@/lib/appwrite";
-import { useEffect, useState } from "react";
+import TaskList from "@/components/task-list";
 
 export default function Page() {
-  const [tasks, setTasks] = useState([]);
-  useEffect(() => {
-    const getTask = async () => {
-      const tasks = await getTasks();
-      console.log(tasks);
-    };
-
-    getTask();
-  }, []);
   return (
     <div className="relative flex w-full flex-1 flex-col">
       {/* Primary Section for Viewing Tasks */}
       <div className={`z-[4] p-4`}>
         {/* Title */}
         <p className="self-center pl-2 pt-5 text-4xl font-bold md:self-start">
-          {" "}
-          All Tasks{" "}
+          All Tasks
         </p>
 
         {/* Divider */}
@@ -33,8 +22,7 @@ export default function Page() {
         {/* Task List */}
         {/* Use Realtime to retrieve and update task data */}
         <div className="">
-          {/* <TaskCards {...data} /> */}
-          {/** */}
+          <TaskList />
         </div>
       </div>
 
