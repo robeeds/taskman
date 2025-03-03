@@ -1,29 +1,35 @@
-// @/src/app/login/page.tsx
+// @/src/app/register/page.tsx
 "use client";
 
 // Imports
-import { login, Models } from "@/lib/appwrite";
-import { redirect } from "next/navigation";
 import ThemeDropdown from "@/components/theme-dropdown";
 import { useState } from "react";
+import Link from "next/link";
 import {
   EyeIcon,
   EyeSlashIcon,
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { register, Models } from "@/lib/appwrite";
+import { redirect } from "next/navigation";
 
 export default function Page() {
   const [loggedInUser, setLoggedInUser] = useState<Models.Preferences | null>(
     null,
   );
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to show password visibility
 
-  const handleSubmit = async (email: string, password: string) => {
-    const user = await login(email, password);
+  const handleSubmit = async (
+    email: string,
+    password: string,
+    name: string,
+  ) => {
+    const user = await register(email, password, name);
     setLoggedInUser(user);
   };
 
@@ -38,16 +44,34 @@ export default function Page() {
         <ThemeDropdown />
       </div>
 
-      {/* This will be the login form */}
+      {/* This will be the signup form */}
       <div className="flex flex-1 items-center justify-center">
-        <form className="bg-bgPrimary flex min-w-[270px] flex-col items-center justify-center gap-6 self-center rounded-md p-10 md:min-w-[600px] md:rounded-[20px]">
+        <form className="bg-bgPrimary flex min-w-[270px] flex-col items-center justify-center gap-6 self-center rounded-[15px] p-10 md:min-w-[600px]">
           {/* Title */}
-          <p className="pb-2 text-3xl font-semibold">Login</p>
+          <p className="pb-2 text-3xl font-semibold">Register</p>
           <hr className="border-textPrimary flex w-full flex-1 rounded-full" />
+
+          {/* This will be the Name Field */}
+          <div className="flex w-full flex-1 flex-col gap-1">
+            <label htmlFor="name" className="font-medium">
+              Name
+            </label>
+            <input
+              type="name"
+              id="name"
+              name="name"
+              autoComplete="true"
+              required
+              className="bg-bgSecondary rounded-[10px] p-2"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
 
           {/* This will be the Email Field */}
           <div className="flex w-full flex-1 flex-col gap-1">
-            <p className="font-medium">Email</p>
+            <label htmlFor="email" className="font-medium">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -61,12 +85,44 @@ export default function Page() {
 
           {/* This will be the Password Field */}
           <div className="flex w-full flex-1 flex-col gap-1">
-            <p className="font-medium">Password</p>
+            <label htmlFor="password" className="font-medium">
+              Password
+            </label>
             <div className="bg-bgSecondary flex rounded-[10px] p-2">
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
+                autoComplete="true"
+                required
+                className="bg-bgSecondary flex flex-1"
+              />
+
+              {/* Password Visibility Toggle */}
+              {showPassword ? (
+                <EyeIcon
+                  width={24}
+                  height={24}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              ) : (
+                <EyeSlashIcon
+                  width={24}
+                  height={24}
+                  onClick={() => setShowPassword((prev) => !prev)}
+                />
+              )}
+            </div>
+          </div>
+
+          {/* This will be the Confirm Password Field */}
+          <div className="flex w-full flex-1 flex-col gap-1">
+            <p className="font-medium">Confirm Password</p>
+            <div className="bg-bgSecondary flex rounded-[10px] p-2">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="confirmPassword"
+                name="confirmPassword"
                 autoComplete="true"
                 required
                 className="bg-bgSecondary flex flex-1"
@@ -79,14 +135,12 @@ export default function Page() {
                   width={24}
                   height={24}
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="hover:cursor-pointer"
                 />
               ) : (
                 <EyeSlashIcon
                   width={24}
                   height={24}
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="hover:cursor-pointer"
                 />
               )}
             </div>
@@ -95,8 +149,8 @@ export default function Page() {
           {/* This will be the login button */}
           <motion.button
             type="button"
-            onClick={() => handleSubmit(email, password)}
-            className="bg-button my-6 self-center rounded-full hover:cursor-pointer"
+            onClick={() => handleSubmit(email, password, name)}
+            className="bg-button my-6 self-center rounded-full"
             whileHover={{ scale: 1.1 }}
           >
             <ArrowRightEndOnRectangleIcon
@@ -106,12 +160,12 @@ export default function Page() {
             />
           </motion.button>
 
-          {/* Link to Register Page */}
+          {/* Link to Login Page */}
           <div className="flex flex-1 flex-row">
             <p className="text-textSecondary">
-              Don&apos;t have an account? Sign up{" "}
+              Already have an account? Log in{" "}
               <Link
-                href="register"
+                href="login"
                 className="text-link hover:cursor-pointer hover:underline"
               >
                 here

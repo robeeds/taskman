@@ -18,7 +18,8 @@ export { type Models } from "appwrite"
 // Register the user
 export async function register(email: string, password: string, name: string) {
     await account.create(ID.unique(), email, password, name);
-    login(email, password);
+    await login(email, password);
+    return getLoggedInUser
 }
 
 // Login the user
