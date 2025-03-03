@@ -1,4 +1,4 @@
-// @/src/test/create-button.tsx
+// @/src/components/create-button.tsx
 "use client";
 
 // Imports

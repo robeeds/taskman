@@ -1,12 +1,13 @@
-// @/src/test/task-card.tsx
+// @/src/components/task-list.tsx
 "use client";
 
 // Imports
 import { useEffect, useState } from "react";
 import { client, databases, Task } from "@/lib/appwrite";
 import { motion } from "framer-motion";
-import { StarIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { StarIcon, TrashIcon } from "@heroicons/react/24/solid";
 import CreateButton from "./create-button";
+import EditButton from "@/components/edit-button";
 
 // Constants
 const DATABASE_ID = "67a113c40021c7fe3479";
@@ -58,6 +59,7 @@ export default function TaskList() {
     };
   }, []);
 
+  // Deletes the task
   const handleDelete = async (id: string) => {
     await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, id);
   };
@@ -108,30 +110,23 @@ export default function TaskList() {
           <div className="flex flex-row items-center justify-between">
             {/* Task Status, change value based on today's date */}
             <p
-              className={`rounded-full px-4 py-2 ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate).toLocaleDateString() < new Date().toLocaleDateString() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate).toLocaleDateString() >= new Date().toLocaleDateString() && "bg-warning"}`}
+              className={`rounded-full px-4 py-2 ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) < new Date() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) >= new Date() && "bg-warning"}`}
             >
               {task.isCompleted == true && "Complete!"}
               {task.isCompleted == false &&
                 task.dueDate != null &&
-                new Date(task.dueDate).toLocaleDateString() <
-                  new Date().toLocaleDateString() &&
+                new Date(task.dueDate) < new Date() &&
                 "Incomplete!"}
               {task.isCompleted == false &&
                 task.dueDate != null &&
-                new Date(task.dueDate).toLocaleDateString() >=
-                  new Date().toLocaleDateString() &&
+                new Date(task.dueDate) >= new Date() &&
                 "In Progress"}
             </p>
 
             {/* Edit and Delete Section */}
-            <div className="">
+            <div className="flex">
               {/* Edit Task Button */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                className="p-2 hover:cursor-pointer"
-              >
-                <PencilIcon width={32} height={32} />
-              </motion.button>
+              <EditButton {...task} />
 
               {/* Delete Task Button */}
               <motion.button

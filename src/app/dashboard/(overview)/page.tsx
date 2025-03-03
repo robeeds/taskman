@@ -2,7 +2,7 @@
 "use client";
 
 // Imports
-import TaskList from "@/test/task-list";
+import TaskList from "@/components/task-list";
 
 export default function Page() {
   return (
