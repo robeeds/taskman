@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# taskman
 
-## Getting Started
+TaskMan — A task management app made using Appwrite, Next.js, TailwindCSS, Framer.
 
-First, run the development server:
+## Table of Contents
+- [Overview](#overview)
+- [Requirements](#requirements)
+- [Solution](#solution)
+- [Preview](#project-preview)
+- [My Process](#my-process)
+- [Author](#author)
+- [Credits](#credits)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Overview
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Requirements
+1. Create a task management app mockup with Figma
+2. Generate a Next.js 15 template with npm
+3. Implement Framer Motion for basic animations
+4. Create reusable styling components with Tailwind
+5. Incorporate Appwrite API for CRUD functions
+6. Deploy site using Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Solution
+- Solution Repo - [Github](https://github.com/robeeds/task-management-app)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## My Process
 
-## Learn More
+| Technology | Use Case |
+| :---: | :--- |
+| <img src="https://github.com/devicons/devicon/blob/master/icons/figma/figma-original.svg" alt="Figma" height="32" width="32"/> | Design |
+| <img src="https://github.com/devicons/devicon/blob/master/icons/react/react-original.svg" alt="React" height="32" width="32"/> <img src="https://github.com/devicons/devicon/blob/master/icons/nextjs/nextjs-original.svg" alt="Next.js" height="32" width="32" /> | Frameworks |
+| <img src="https://github.com/devicons/devicon/blob/master/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" height="32" width="32"/> <img src="https://github.com/devicons/devicon/blob/master/icons/framermotion/framermotion-original.svg" alt="Framer" height="32" width="32"/> | Styling |
+| <img src="https://github.com/devicons/devicon/blob/master/icons/appwrite/appwrite-original.svg" alt="PageClip" width="32"/> | Database |
+| <img src="https://github.com/devicons/devicon/blob/master/icons/vercel/vercel-original.svg" alt="Vercel" height="32" width="32"/> | Deployment |
 
-To learn more about Next.js, take a look at the following resources:
+## Project Preview
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/a6a2ce33-5964-4dab-b173-c96ce65e4fa7">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/7b4dc4f6-21c2-4033-be20-ede7e4b67340">
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/a5ca5208-1f10-4e40-a020-76599c550eca">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/8b36d9df-ef3e-4f79-ac75-04c6f58a395e">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/73957e81-c8bc-4da7-afd2-7fb249577040">
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/d8d59011-c78d-4030-a1fb-78bf4cff5fc0">
+<img width="1394" alt="image" src="https://github.com/user-attachments/assets/36ae51dd-54e6-4dd2-a66e-2bd66f67af2d">
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+
+- Website - [Robee D.](https://www.robeeds.dev)
+
+## Credits
+
+- Mockup - [Figma](https://www.figma.com/design/w0KwiYrXfYt6rUPT9pmFhF/task-management-app?node-id=0-1&t=wfqH3E9mAdKBYqCd-1)
