@@ -119,7 +119,7 @@ export default function EditButton(task: Task) {
                   {/* isImportant Toggle */}
                   <div className="flex w-full flex-1 flex-row items-center justify-between gap-1">
                     <p className="font-medium">Important?</p>
-                    <div>
+                    <motion.div whileHover={{ scale: 1.1 }}>
                       <input
                         id="isImportant"
                         name="isImportant"
@@ -129,18 +129,26 @@ export default function EditButton(task: Task) {
                       />
                       <label htmlFor="isImportant">
                         {important ? (
-                          <StarOn width={28} height={28} />
+                          <StarOn
+                            width={28}
+                            height={28}
+                            className="hover:cursor-pointer"
+                          />
                         ) : (
-                          <StarOff width={28} height={28} />
+                          <StarOff
+                            width={28}
+                            height={28}
+                            className="hover:cursor-pointer"
+                          />
                         )}
                       </label>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* isCompleted Toggle */}
                   <div className="flex w-full flex-1 flex-row items-center justify-between gap-1">
-                    <p className="font-medium">Completed</p>
-                    <div>
+                    <p className="font-medium">Completed?</p>
+                    <motion.div whileHover={{ scale: 1.1 }}>
                       <input
                         id="isCompleted"
                         name="isCompleted"
@@ -150,12 +158,20 @@ export default function EditButton(task: Task) {
                       />
                       <label htmlFor="isCompleted">
                         {completed ? (
-                          <CheckCircleIcon width={28} height={28} />
+                          <CheckCircleIcon
+                            width={28}
+                            height={28}
+                            className="hover:cursor-pointer"
+                          />
                         ) : (
-                          <XCircleIcon width={28} height={28} />
+                          <XCircleIcon
+                            width={28}
+                            height={28}
+                            className="hover:cursor-pointer"
+                          />
                         )}
                       </label>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Back and Submit Buttons */}
@@ -174,7 +190,7 @@ export default function EditButton(task: Task) {
                     <div className="flex">
                       <motion.button
                         type="submit"
-                        className="bg-button flex flex-1 rounded-full"
+                        className="bg-button flex flex-1 rounded-full hover:cursor-pointer"
                         whileHover={{ scale: 1.1 }}
                       >
                         <p className="text-bgTertiary px-4 py-2 font-semibold">

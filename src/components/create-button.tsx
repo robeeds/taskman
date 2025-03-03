@@ -7,7 +7,8 @@ import { ArrowLeftIcon, DocumentPlusIcon } from "@heroicons/react/24/outline";
 import { StarIcon as StarOff } from "@heroicons/react/24/outline";
 import { StarIcon as StarOn } from "@heroicons/react/24/solid";
 import { useState } from "react";
-import { databases, ID } from "@/lib/appwrite";
+import { databases, getLoggedInUser, ID } from "@/lib/appwrite";
+import { Permission, Role } from "appwrite";
 
 // Constants
 const DATABASE_ID = "67a113c40021c7fe3479";
@@ -22,19 +23,34 @@ export default function CreateButton() {
   const [dueDate, setDueDate] = useState<string | null>(null);
   const [important, setImportant] = useState(false);
 
+  // Creates the task
   const createTask = async () => {
     let formattedDate = null;
     if (dueDate != null) {
       formattedDate = new Date(dueDate).toUTCString();
     }
 
-    databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-      title: title,
-      description: description,
-      dueDate: formattedDate,
-      isImportant: important,
-      isCompleted: false,
-    });
+    // Gets the current user and their id
+    const user = await getLoggedInUser();
+    const userId = user.$id;
+
+    databases.createDocument(
+      DATABASE_ID,
+      COLLECTION_ID,
+      ID.unique(),
+      {
+        title: title,
+        description: description,
+        dueDate: formattedDate,
+        isImportant: important,
+        isCompleted: false,
+      },
+      [
+        Permission.read(Role.user(userId)),
+        Permission.update(Role.user(userId)),
+        Permission.delete(Role.user(userId)),
+      ],
+    );
 
     // Reset our values
     setTitle("");
@@ -119,7 +135,7 @@ export default function CreateButton() {
                   {/* isImportant Toggle */}
                   <div className="flex w-full flex-1 flex-row items-center justify-between gap-1">
                     <p className="font-medium">Important?</p>
-                    <div>
+                    <motion.div whileHover={{ scale: 1.1 }}>
                       <input
                         id="isImportant"
                         name="isImportant"
@@ -129,12 +145,20 @@ export default function CreateButton() {
                       />
                       <label htmlFor="isImportant">
                         {important ? (
-                          <StarOn width={28} height={28} />
+                          <StarOn
+                            width={28}
+                            height={28}
+                            className="hover:cursor-pointer"
+                          />
                         ) : (
-                          <StarOff width={28} height={28} />
+                          <StarOff
+                            width={28}
+                            height={28}
+                            className="hover:cursor-pointer"
+                          />
                         )}
                       </label>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* Back and Submit Buttons */}
@@ -153,7 +177,7 @@ export default function CreateButton() {
                     <div className="flex">
                       <motion.button
                         type="submit"
-                        className="bg-button flex flex-1 rounded-full"
+                        className="bg-button flex flex-1 rounded-full hover:cursor-pointer"
                         whileHover={{ scale: 1.1 }}
                       >
                         <p className="text-bgTertiary px-4 py-2 font-semibold">
