@@ -3,15 +3,33 @@
 
 // Imports
 import TaskList from "@/components/task-list";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Page() {
+  const [title, setTitle] = useState("");
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Listening for url changes
+    const filter = searchParams.get("filter");
+
+    // Filter by task importance
+    if (filter == "important") {
+      setTitle("Important");
+    } else if (filter == "completed") {
+      setTitle("Completed");
+    } else {
+      setTitle("All");
+    }
+  }, [searchParams]);
   return (
     <div className="relative flex w-full flex-1 flex-col">
       {/* Primary Section for Viewing Tasks */}
       <div className={`z-[4] p-4`}>
         {/* Title */}
         <p className="self-center pl-2 pt-5 text-4xl font-bold md:self-start">
-          All Tasks
+          {title} Tasks
         </p>
 
         {/* Divider */}
@@ -20,7 +38,6 @@ export default function Page() {
         </div>
 
         {/* Task List */}
-        {/* Use Realtime to retrieve and update task data */}
         <div className="">
           <TaskList />
         </div>

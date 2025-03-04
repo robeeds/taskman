@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { StarIcon, TrashIcon } from "@heroicons/react/24/solid";
 import CreateButton from "./create-button";
 import EditButton from "@/components/edit-button";
+import { usePathname, useSearchParams } from "next/navigation";
 
 // Constants
 const DATABASE_ID = "67a113c40021c7fe3479";
@@ -15,19 +16,49 @@ const COLLECTION_ID = "67a113cc000fa69b928a";
 
 export default function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   // Gets the initial Tasks
   const getTasks = async () => {
     const response = await databases.listDocuments(DATABASE_ID, COLLECTION_ID);
     const taskList = response.documents as Task[];
-    console.log("This is the task list: ", taskList);
     setTasks(taskList);
   };
 
-  // Allows realtime updates to the user's dashboard
+  // Fetch Tasks on component mount
   useEffect(() => {
     getTasks();
+  }, []);
 
+  // Apply filter when searchParams change
+  useEffect(() => {
+    // Filters tasks based on search params
+    const applyFilter = (filter: string | null) => {
+      // Listening for url changes
+      //const filter = searchParams.get("filter");
+
+      // Filter by task importance
+      if (filter == "important") {
+        console.log("Important filter activated");
+        const importantTasks = tasks.filter((task) => task.isImportant == true);
+        setFilteredTasks(importantTasks);
+      } else if (filter == "completed") {
+        console.log("Completed filter activated");
+        const completeTasks = tasks.filter((task) => task.isCompleted == true);
+        setFilteredTasks(completeTasks);
+      } else {
+        console.log("Default to no filter");
+        setFilteredTasks(tasks);
+      }
+    };
+    const filter = searchParams.get("filter");
+    applyFilter(filter);
+  }, [searchParams, tasks]);
+
+  // Allows realtime updates to the user's dashboard
+  useEffect(() => {
     const unsubscribe = client.subscribe(
       `databases.${DATABASE_ID}.collections.${COLLECTION_ID}.documents`,
       (response) => {
@@ -57,7 +88,7 @@ export default function TaskList() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [pathname, searchParams]);
 
   // Deletes the task
   const handleDelete = async (id: string) => {
@@ -72,7 +103,7 @@ export default function TaskList() {
       </div>
 
       {/* Task Cards */}
-      {tasks.map((task) => (
+      {filteredTasks.map((task) => (
         <div
           key={task.$id}
           id={task.$id}
@@ -110,7 +141,7 @@ export default function TaskList() {
           <div className="flex flex-row items-center justify-between">
             {/* Task Status, change value based on today's date */}
             <p
-              className={`rounded-full px-4 py-2 ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) < new Date() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) >= new Date() && "bg-warning"}`}
+              className={`rounded-full px-4 py-2 font-semibold ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) < new Date() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) >= new Date() && "bg-warning"}`}
             >
               {task.isCompleted == true && "Complete!"}
               {task.isCompleted == false &&
