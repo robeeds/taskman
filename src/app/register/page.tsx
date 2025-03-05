@@ -46,7 +46,6 @@ export default function Page() {
               autoComplete="true"
               required
               className="bg-bgSecondary rounded-[10px] p-2"
-              //onChange={(e) => setName(e.target.value)}
             />
             {state?.errors?.name && (
               <p className="text-warning flex flex-1 self-start">
@@ -67,7 +66,6 @@ export default function Page() {
               autoComplete="true"
               required
               className="bg-bgSecondary rounded-[10px] p-2"
-              //onChange={(e) => setEmail(e.target.value)}
             />
             {state?.errors?.email && (
               <p className="text-warning flex flex-1 self-start">
@@ -93,17 +91,23 @@ export default function Page() {
 
               {/* Password Visibility Toggle */}
               {showPassword ? (
-                <EyeIcon
-                  width={24}
-                  height={24}
-                  onClick={() => setShowPassword((prev) => !prev)}
-                />
+                <motion.div whileHover={{ scale: 1.1 }}>
+                  <EyeIcon
+                    width={24}
+                    height={24}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="hover:cursor-pointer"
+                  />
+                </motion.div>
               ) : (
-                <EyeSlashIcon
-                  width={24}
-                  height={24}
-                  onClick={() => setShowPassword((prev) => !prev)}
-                />
+                <motion.div whileHover={{ scale: 1.1 }}>
+                  <EyeSlashIcon
+                    width={24}
+                    height={24}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="hover:cursor-pointer"
+                  />
+                </motion.div>
               )}
             </div>
           </div>
@@ -119,22 +123,27 @@ export default function Page() {
                 autoComplete="true"
                 required
                 className="bg-bgSecondary flex flex-1"
-                //onChange={(e) => setPassword(e.target.value)}
               />
 
               {/* Password Visibility Toggle */}
               {showPassword ? (
-                <EyeIcon
-                  width={24}
-                  height={24}
-                  onClick={() => setShowPassword((prev) => !prev)}
-                />
+                <motion.div whileHover={{ scale: 1.1 }}>
+                  <EyeIcon
+                    width={24}
+                    height={24}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="hover:cursor-pointer"
+                  />
+                </motion.div>
               ) : (
-                <EyeSlashIcon
-                  width={24}
-                  height={24}
-                  onClick={() => setShowPassword((prev) => !prev)}
-                />
+                <motion.div whileHover={{ scale: 1.1 }}>
+                  <EyeSlashIcon
+                    width={24}
+                    height={24}
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="hover:cursor-pointer"
+                  />
+                </motion.div>
               )}
             </div>
             {/* Password Errors */}
@@ -153,11 +162,9 @@ export default function Page() {
 
           {/* This will be the login button */}
           <motion.button
-            //type="button"
-            //onClick={() => handleSubmit(email, password, name)}
             type="submit"
             disabled={pending}
-            className="bg-button my-6 self-center rounded-full"
+            className="bg-button my-6 self-center rounded-full hover:cursor-pointer"
             whileHover={{ scale: 1.1 }}
           >
             <ArrowRightEndOnRectangleIcon
