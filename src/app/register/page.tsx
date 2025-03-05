@@ -3,7 +3,7 @@
 
 // Imports
 import ThemeDropdown from "@/components/theme-dropdown";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import Link from "next/link";
 import {
   EyeIcon,
@@ -11,31 +11,11 @@ import {
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import { register, Models } from "@/lib/appwrite";
-import { redirect } from "next/navigation";
+import { register } from "@/lib/appwrite";
 
 export default function Page() {
-  const [loggedInUser, setLoggedInUser] = useState<Models.Preferences | null>(
-    null,
-  );
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [state, action, pending] = useActionState(register, undefined);
   const [showPassword, setShowPassword] = useState(false); // State to show password visibility
-
-  const handleSubmit = async (
-    email: string,
-    password: string,
-    name: string,
-  ) => {
-    const user = await register(email, password, name);
-    setLoggedInUser(user);
-  };
-
-  if (loggedInUser) {
-    redirect("/dashboard");
-  }
 
   return (
     <div className="bg-bgSecondary text-textPrimary flex min-h-screen flex-1 flex-col justify-center p-8 pb-20 sm:p-20">
@@ -46,7 +26,10 @@ export default function Page() {
 
       {/* This will be the signup form */}
       <div className="flex flex-1 items-center justify-center">
-        <form className="bg-bgPrimary flex min-w-[270px] flex-col items-center justify-center gap-6 self-center rounded-[15px] p-10 md:min-w-[600px]">
+        <form
+          action={action}
+          className="bg-bgPrimary flex min-w-[270px] flex-col items-center justify-center gap-6 self-center rounded-[15px] p-10 md:min-w-[600px]"
+        >
           {/* Title */}
           <p className="pb-2 text-3xl font-semibold">Register</p>
           <hr className="border-textPrimary flex w-full flex-1 rounded-full" />
@@ -63,8 +46,13 @@ export default function Page() {
               autoComplete="true"
               required
               className="bg-bgSecondary rounded-[10px] p-2"
-              onChange={(e) => setName(e.target.value)}
+              //onChange={(e) => setName(e.target.value)}
             />
+            {state?.errors?.name && (
+              <p className="text-warning flex flex-1 self-start">
+                {state.errors.name}
+              </p>
+            )}
           </div>
 
           {/* This will be the Email Field */}
@@ -79,8 +67,13 @@ export default function Page() {
               autoComplete="true"
               required
               className="bg-bgSecondary rounded-[10px] p-2"
-              onChange={(e) => setEmail(e.target.value)}
+              //onChange={(e) => setEmail(e.target.value)}
             />
+            {state?.errors?.email && (
+              <p className="text-warning flex flex-1 self-start">
+                {state.errors.email}
+              </p>
+            )}
           </div>
 
           {/* This will be the Password Field */}
@@ -126,7 +119,7 @@ export default function Page() {
                 autoComplete="true"
                 required
                 className="bg-bgSecondary flex flex-1"
-                onChange={(e) => setPassword(e.target.value)}
+                //onChange={(e) => setPassword(e.target.value)}
               />
 
               {/* Password Visibility Toggle */}
@@ -144,12 +137,26 @@ export default function Page() {
                 />
               )}
             </div>
+            {/* Password Errors */}
+            {state?.errors?.password && (
+              <div className="text-warning flex flex-1 flex-col self-start">
+                <p>Password must:</p>
+                <ul>
+                  {state.errors.password.map((error) => (
+                    <li key={error}>- {error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
+          {state?.message && <p className="text-warning">{state.message}</p>}
 
           {/* This will be the login button */}
           <motion.button
-            type="button"
-            onClick={() => handleSubmit(email, password, name)}
+            //type="button"
+            //onClick={() => handleSubmit(email, password, name)}
+            type="submit"
+            disabled={pending}
             className="bg-button my-6 self-center rounded-full"
             whileHover={{ scale: 1.1 }}
           >

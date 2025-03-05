@@ -2,10 +2,9 @@
 "use client";
 
 // Imports
-import { login, Models } from "@/lib/appwrite";
-import { redirect } from "next/navigation";
+import { login } from "@/lib/appwrite";
 import ThemeDropdown from "@/components/theme-dropdown";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import {
   EyeIcon,
   EyeSlashIcon,
@@ -15,21 +14,9 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 
 export default function Page() {
-  const [loggedInUser, setLoggedInUser] = useState<Models.Preferences | null>(
-    null,
-  );
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // state to show password visiiblity
 
-  const handleSubmit = async (email: string, password: string) => {
-    const user = await login(email, password);
-    setLoggedInUser(user);
-  };
-
-  if (loggedInUser) {
-    redirect("/dashboard");
-  }
+  const [state, action, pending] = useActionState(login, undefined);
 
   return (
     <div className="bg-bgSecondary text-textPrimary flex min-h-screen flex-1 flex-col justify-center p-8 pb-20 sm:p-20">
@@ -40,7 +27,10 @@ export default function Page() {
 
       {/* This will be the login form */}
       <div className="flex flex-1 items-center justify-center">
-        <form className="bg-bgPrimary flex min-w-[270px] flex-col items-center justify-center gap-6 self-center rounded-md p-10 md:min-w-[600px] md:rounded-[20px]">
+        <form
+          action={action}
+          className="bg-bgPrimary flex min-w-[270px] flex-col items-center justify-center gap-6 self-center rounded-md p-10 md:min-w-[600px] md:rounded-[20px]"
+        >
           {/* Title */}
           <p className="pb-2 text-3xl font-semibold">Login</p>
           <hr className="border-textPrimary flex w-full flex-1 rounded-full" />
@@ -55,8 +45,13 @@ export default function Page() {
               autoComplete="true"
               required
               className="bg-bgSecondary rounded-[10px] p-2"
-              onChange={(e) => setEmail(e.target.value)}
+              //onChange={(e) => setEmail(e.target.value)}
             />
+            {state?.errors?.email && (
+              <p className="text-warning flex flex-1 self-start">
+                {state.errors.email}
+              </p>
+            )}
           </div>
 
           {/* This will be the Password Field */}
@@ -70,7 +65,7 @@ export default function Page() {
                 autoComplete="true"
                 required
                 className="bg-bgSecondary flex flex-1"
-                onChange={(e) => setPassword(e.target.value)}
+                //onChange={(e) => setPassword(e.target.value)}
               />
 
               {/* Password Visibility Toggle */}
@@ -90,12 +85,26 @@ export default function Page() {
                 />
               )}
             </div>
+            {/* Password Errors */}
+            {state?.errors?.password && (
+              <div className="text-warning flex flex-1 flex-col self-start">
+                <p>Password must:</p>
+                <ul>
+                  {state.errors.password.map((error) => (
+                    <li key={error}>- {error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
+          {state?.message && <p className="text-warning">{state.message}</p>}
 
           {/* This will be the login button */}
           <motion.button
-            type="button"
-            onClick={() => handleSubmit(email, password)}
+            //type="button"
+            //onClick={() => handleSubmit(email, password)}
+            type="submit"
+            disabled={pending}
             className="bg-button my-6 self-center rounded-full hover:cursor-pointer"
             whileHover={{ scale: 1.1 }}
           >
