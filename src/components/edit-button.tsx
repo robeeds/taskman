@@ -21,6 +21,18 @@ export default function EditButton(task: Task) {
   const [editOverlay, setEditOverlay] = useState(false); // State to handle edit task overlay
 
   // Placeholder for date
+  let defaultDate = undefined;
+  if (task.dueDate != null) {
+    const utcTime = task.dueDate;
+    const localDate = new Date(utcTime);
+    // Extract the local date components
+    const year = localDate.getFullYear();
+    const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed, so add 1
+    const day = String(localDate.getDate()).padStart(2, "0");
+    const hours = String(localDate.getHours()).padStart(2, "0");
+    const minutes = String(localDate.getMinutes()).padStart(2, "0");
+    defaultDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
 
   // States to set task values
   const [title, setTitle] = useState(task.title);
@@ -111,6 +123,7 @@ export default function EditButton(task: Task) {
                       id="dueDate"
                       name="dueDate"
                       type="datetime-local"
+                      defaultValue={defaultDate}
                       className="placeholder:text-textTertiary bg-bgTertiary rounded-[10px] p-2"
                       onChange={(e) => setDueDate(e.target.value)}
                     />
