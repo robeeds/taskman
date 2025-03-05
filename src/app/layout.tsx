@@ -15,7 +15,7 @@ const firaCode = Fira_Code({
 // Metadata
 export const metadata: Metadata = {
   title: "TaskMan",
-  description: "A task management app made by robeeds",
+  description: "A task management app made by robeeds.",
 };
 
 export default function RootLayout({
