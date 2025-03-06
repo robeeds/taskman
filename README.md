@@ -22,7 +22,7 @@ TaskMan — A task management app made using Appwrite, Next.js, TailwindCSS, Fr
 6. Deploy site using Vercel
 
 ### Solution
-- Solution Repo - [Github](https://github.com/robeeds/task-management-app)
+- Solution Repo - [Github](https://github.com/robeeds/taskman)
 
 ## My Process
 
