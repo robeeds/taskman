@@ -36,20 +36,14 @@ export default function TaskList() {
   useEffect(() => {
     // Filters tasks based on search params
     const applyFilter = (filter: string | null) => {
-      // Listening for url changes
-      //const filter = searchParams.get("filter");
-
       // Filter by task importance
       if (filter == "important") {
-        console.log("Important filter activated");
         const importantTasks = tasks.filter((task) => task.isImportant == true);
         setFilteredTasks(importantTasks);
       } else if (filter == "completed") {
-        console.log("Completed filter activated");
         const completeTasks = tasks.filter((task) => task.isCompleted == true);
         setFilteredTasks(completeTasks);
       } else {
-        console.log("Default to no filter");
         setFilteredTasks(tasks);
       }
     };
@@ -65,11 +59,9 @@ export default function TaskList() {
         const eventType = response.events[0];
         const changedTask = response.payload as Task;
         if (eventType.includes(".create")) {
-          console.log("A task was created");
           setTasks((prevTasks) => [changedTask, ...prevTasks]);
         }
         if (eventType.includes(".update")) {
-          console.log("A task was updated");
           setTasks((prevTasks) =>
             prevTasks.map((task) =>
               task.$id !== changedTask.$id ? task : changedTask,
@@ -77,7 +69,6 @@ export default function TaskList() {
           );
         }
         if (eventType.includes(".delete")) {
-          console.log("A task was deleted");
           setTasks((prevTasks) =>
             prevTasks.filter((task) => task.$id !== changedTask.$id),
           );

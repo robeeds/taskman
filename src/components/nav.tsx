@@ -11,7 +11,7 @@ import SettingsButton from "./settings-button";
 import NavLinks from "./nav-links";
 
 export default function SideNav() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState("Loading...");
 
   useEffect(() => {
     const getUser = async () => {

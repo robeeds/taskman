@@ -4,12 +4,42 @@
 // Imports
 import TaskList from "@/components/task-list";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { getLoggedInUser, Models } from "@/lib/appwrite";
 import { useSearchParams } from "next/navigation";
 
 export default function Page() {
   const [title, setTitle] = useState("");
   const searchParams = useSearchParams();
+  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
+    null,
+  );
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
+  // Gets the current user
+  const getUser = async () => {
+    try {
+      const session = await getLoggedInUser();
+      setUser(session);
+    } catch {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [loading, user, router]);
+
+  // Task Filter
   useEffect(() => {
     // Listening for url changes
     const filter = searchParams.get("filter");
@@ -23,6 +53,16 @@ export default function Page() {
       setTitle("All");
     }
   }, [searchParams]);
+
+  // Loading State
+  if (loading) {
+    return (
+      <div className="flex w-full flex-1 items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex w-full flex-1 flex-col">
       {/* Primary Section for Viewing Tasks */}

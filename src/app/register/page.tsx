@@ -3,7 +3,7 @@
 
 // Imports
 import ThemeDropdown from "@/components/theme-dropdown";
-import { useActionState, useState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import Link from "next/link";
 import {
   EyeIcon,
@@ -11,11 +11,33 @@ import {
   ArrowRightEndOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
-import { register } from "@/lib/appwrite";
+import { register, Models, getLoggedInUser } from "@/lib/appwrite";
+import { redirect } from "next/navigation";
 
 export default function Page() {
   const [state, action, pending] = useActionState(register, undefined);
   const [showPassword, setShowPassword] = useState(false); // State to show password visibility
+  const [user, setUser] = useState<Models.User<Models.Preferences> | null>(
+    null,
+  );
+
+  // Checks if there is a current user session
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const session = await getLoggedInUser();
+        setUser(session);
+      } catch {
+        setUser(null);
+      }
+    }
+
+    getUser();
+  }, []);
+
+  if (user) {
+    redirect("/dashboard");
+  }
 
   return (
     <div className="bg-bgSecondary text-textPrimary flex min-h-screen flex-1 flex-col justify-center p-8 pb-20 sm:p-20">

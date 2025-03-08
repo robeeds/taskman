@@ -99,7 +99,7 @@ export async function logout() {
 
 // Get the currently logged in user
 export async function getLoggedInUser() {
-    const user = account.get()
+    const user = account.get();
     return user;
 }
 

@@ -32,7 +32,7 @@ export default function CreateButton() {
 
     // Gets the current user and their id
     const user = await getLoggedInUser();
-    const userId = user.$id;
+    const userId = user?.$id;
 
     databases.createDocument(
       DATABASE_ID,
