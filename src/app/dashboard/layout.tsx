@@ -18,7 +18,7 @@ export default function DashLayout({
 
       {/* This will be the general task area */}
       <div className="bg-bgSecondary flex max-h-screen flex-1 overflow-scroll">
-        {children}
+        <Suspense>{children}</Suspense>
       </div>
     </div>
   );
