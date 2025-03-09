@@ -2,7 +2,7 @@
 "use client";
 
 // Imports
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { client, databases, Task } from "@/lib/appwrite";
 import { motion } from "framer-motion";
 import { StarIcon, TrashIcon } from "@heroicons/react/24/solid";
@@ -93,75 +93,77 @@ export default function TaskList() {
         <CreateButton />
       </div>
 
-      {/* Task Cards */}
-      {filteredTasks.map((task) => (
-        <div
-          key={task.$id}
-          id={task.$id}
-          className="bg-bgPrimary col-span-1 flex h-[330px] flex-1 flex-col overflow-x-hidden rounded-[15px] p-4"
-        >
-          {/* This section will be the task title and importance */}
-          <div className="flex flex-row items-center justify-between py-2">
-            {/*Task Title */}
-            <p className="truncate text-3xl font-semibold">{task.title}</p>
-            <div className="">
-              {task.isImportant === true ? (
-                <StarIcon width={32} height={32} className="" />
-              ) : (
-                ""
-              )}
+      <Suspense fallback={<p>Loading...</p>}>
+        {/* Task Cards */}
+        {filteredTasks.map((task) => (
+          <div
+            key={task.$id}
+            id={task.$id}
+            className="bg-bgPrimary col-span-1 flex h-[330px] flex-1 flex-col overflow-x-hidden rounded-[15px] p-4"
+          >
+            {/* This section will be the task title and importance */}
+            <div className="flex flex-row items-center justify-between py-2">
+              {/*Task Title */}
+              <p className="truncate text-3xl font-semibold">{task.title}</p>
+              <div className="">
+                {task.isImportant === true ? (
+                  <StarIcon width={32} height={32} className="" />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* Description and Due Date */}
-          <div className="flex flex-1 flex-col overflow-hidden">
-            {/* Task Description */}
-            <p className="text-textSecondary h-full overflow-y-scroll">
-              {task.description}
-            </p>
+            {/* Description and Due Date */}
+            <div className="flex flex-1 flex-col overflow-hidden">
+              {/* Task Description */}
+              <p className="text-textSecondary h-full overflow-y-scroll">
+                {task.description}
+              </p>
 
-            {/* Task Due Date */}
-            <p className="py-3 font-semibold">
-              {task.dueDate != null
-                ? `Due: ${new Date(task.dueDate).toLocaleDateString()} at ${new Date(task.dueDate).toLocaleTimeString([], { timeStyle: "short" })}`
-                : ""}
-            </p>
-          </div>
+              {/* Task Due Date */}
+              <p className="py-3 font-semibold">
+                {task.dueDate != null
+                  ? `Due: ${new Date(task.dueDate).toLocaleDateString()} at ${new Date(task.dueDate).toLocaleTimeString([], { timeStyle: "short" })}`
+                  : ""}
+              </p>
+            </div>
 
-          {/* Task Status, Edit and Delete Section */}
-          <div className="flex flex-row items-center justify-between">
-            {/* Task Status, change value based on today's date */}
-            <p
-              className={`rounded-full px-4 py-2 font-semibold ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) < new Date() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) >= new Date() && "bg-warning"}`}
-            >
-              {task.isCompleted == true && "Complete!"}
-              {task.isCompleted == false &&
-                task.dueDate != null &&
-                new Date(task.dueDate) < new Date() &&
-                "Incomplete!"}
-              {task.isCompleted == false &&
-                task.dueDate != null &&
-                new Date(task.dueDate) >= new Date() &&
-                "In Progress"}
-            </p>
-
-            {/* Edit and Delete Section */}
-            <div className="flex">
-              {/* Edit Task Button */}
-              <EditButton {...task} />
-
-              {/* Delete Task Button */}
-              <motion.button
-                onClick={() => handleDelete(task.$id)}
-                whileHover={{ scale: 1.1 }}
-                className="pl-2 hover:cursor-pointer"
+            {/* Task Status, Edit and Delete Section */}
+            <div className="flex flex-row items-center justify-between">
+              {/* Task Status, change value based on today's date */}
+              <p
+                className={`rounded-full px-4 py-2 font-semibold ${task.isCompleted == true && "bg-success text-bgPrimary"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) < new Date() && "bg-danger"} ${task.isCompleted == false && task.dueDate != null && new Date(task.dueDate) >= new Date() && "bg-warning"}`}
               >
-                <TrashIcon width={32} height={32} />
-              </motion.button>
+                {task.isCompleted == true && "Complete!"}
+                {task.isCompleted == false &&
+                  task.dueDate != null &&
+                  new Date(task.dueDate) < new Date() &&
+                  "Incomplete!"}
+                {task.isCompleted == false &&
+                  task.dueDate != null &&
+                  new Date(task.dueDate) >= new Date() &&
+                  "In Progress"}
+              </p>
+
+              {/* Edit and Delete Section */}
+              <div className="flex">
+                {/* Edit Task Button */}
+                <EditButton {...task} />
+
+                {/* Delete Task Button */}
+                <motion.button
+                  onClick={() => handleDelete(task.$id)}
+                  whileHover={{ scale: 1.1 }}
+                  className="pl-2 hover:cursor-pointer"
+                >
+                  <TrashIcon width={32} height={32} />
+                </motion.button>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </Suspense>
     </div>
   );
 }
