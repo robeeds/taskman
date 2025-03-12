@@ -57,27 +57,6 @@
         brightness(99%) contrast(93%);
     }
   }
-
-  [data-theme="catpuccin-mocha"] {
-    --textPrimary: #cdd6f4;
-    --textSecondary: #bac2de;
-    --textTertiary: #a6adc8;
-    --link: #81c8be;
-    --backgroundPrimary: #45475a;
-    --backgroundSecondary: #313244;
-    --backgroundTertiary: #1e1e2e;
-    --button: #8caaee;
-    --danger: #e78284;
-    --warning: #ef9f76;
-    --success: #a6d189;
-    --modalBackground: rgba(0, 0, 0, 0.5);
-  
-    color-scheme: dark;
-    ::-webkit-calendar-picker-indicator {
-      filter: invert(92%) sepia(77%) saturate(6534%) hue-rotate(177deg)
-        brightness(99%) contrast(93%);
-    }
-  }
 }
 
 input,

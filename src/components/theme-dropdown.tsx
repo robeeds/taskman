@@ -13,7 +13,7 @@ export default function ThemeDropdown() {
   const { setTheme, resolvedTheme } = useTheme();
 
   // List of themes, may move this to a separate file if it becomes long enough
-  const themes = ["gruvbox", "catpuccin", "catpuccin-mocha"];
+  const themes = ["gruvbox", "catpuccin"];
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
