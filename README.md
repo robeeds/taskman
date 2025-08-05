@@ -35,16 +35,8 @@ TaskMan — A task management app made using Appwrite, Next.js, TailwindCSS, Fr
 | <img src="https://github.com/devicons/devicon/blob/master/icons/vercel/vercel-original.svg" alt="Vercel" height="32" width="32"/> | Deployment |
 
 ## Project Preview
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/a6a2ce33-5964-4dab-b173-c96ce65e4fa7">
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/7b4dc4f6-21c2-4033-be20-ede7e4b67340">
-
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/a5ca5208-1f10-4e40-a020-76599c550eca">
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/8b36d9df-ef3e-4f79-ac75-04c6f58a395e">
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/73957e81-c8bc-4da7-afd2-7fb249577040">
-
-
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/d8d59011-c78d-4030-a1fb-78bf4cff5fc0">
-<img width="1394" alt="image" src="https://github.com/user-attachments/assets/36ae51dd-54e6-4dd2-a66e-2bd66f67af2d">
+<img width="1886" height="912" alt="image" src="https://github.com/user-attachments/assets/03a775c3-533d-4d75-bfee-97c8dccf3acf" />
+<img width="1886" height="912" alt="image" src="https://github.com/user-attachments/assets/b8d4daf0-6669-417a-aae6-b6d53ba33af9" />
 
 
 ## Author
